@@ -9,7 +9,7 @@ def read():
             parts = row.split(" ")
             start = parts[0].split(",")
             end = parts[2].split(",")
-            data.append([(int(start[0]), int(start[1])), (int(end[0]), int(end[1]))])
+            data.append([int(start[0]), int(start[1]), int(end[0]), int(end[1])])
     return data
 
 # rakennetaan apuruudukko
@@ -17,8 +17,8 @@ def create_grid(data: list):
     max_x = 0
     max_y = 0
     for line in data:
-        x = max(line[0][0], line[1][0])
-        y = max(line[0][1], line[1][1])
+        x = max(line[0], line[1])
+        y = max(line[2], line[3])
         if x > max_x:
             max_x = x
         if y > max_y:
@@ -37,38 +37,37 @@ def crossing_lines():
 
     # merkitään suorat apuruudukkoon
     for line in data:
-        start = line[0]
-        end = line[1]
+        x1, y1, x2, y2 = line[0], line[1], line[2], line[3]
 
         # pystysuuntaiset suorat
-        if start[0] == end[0]:
-            if start[1] > end[1]:
-                start, end = end, start
-            for i in range(start[1], end[1]+1):
-                grid[i][start[0]] +=1
+        if x1 == x2:
+            if y1 > y2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
+            for i in range(y1, y2+1):
+                grid[i][x1] +=1
 
         # vaakasuuntaiset suorat    
-        elif start[1] == end[1]:
-            if start[0] > end[0]:
-                start, end = end, start
-            for i in range(start[0], end[0]+1):
-                grid[start[1]][i] += 1
+        elif y1 == y2:
+            if x1 > x2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
+            for i in range(x1, x2+1):
+                grid[y1][i] += 1
 
         # vinottaiset suorat
         else:
-            if start[0] > end[0]:
-                start, end = end, start
+            if x1 > x2:
+                x1, y1, x2, y2 = x2, y2, x1, y1
 
             # laskevat suorat
-            if start[1] < end[1]:
-                j = start[0]
-                for i in range(start[1], end[1]+1):
+            if y1 < y2:
+                j = x1
+                for i in range(y1, y2+1):
                     grid[i][j] += 1
                     j += 1
             # nousevat suorat
-            if start[1] >= end[1]:
-                j = end[0]
-                for i in range(end[1], start[1]+1):
+            if y1 >= y2:
+                j = x2
+                for i in range(y2, y1+1):
                     grid[i][j] += 1
                     j -= 1
 
