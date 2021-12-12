@@ -12,8 +12,9 @@ data = read("day11_data.txt")
 data = [['x']*(len(data[0])+2)] + [['x'] + row + ['x'] for row in data] + [['x']*(len(data[0])+2)]
 
 flashes_count = 0
+step = 1
 
-for step in range(400):
+while True:
     # energy level of each octopus increases by one
     data = [[x+1 if isinstance(x, int) else x for x in row] for row in data]
 
@@ -40,7 +41,7 @@ for step in range(400):
     #set the energy of flashed octopuses back to zero
     data = [[0 if isinstance(x, int) and x == -1 else x for x in row] for row in data]
 
-    if step == 99:
+    if step == 100:
         print("Part 1: total flashes after 100 steps:", flashes_count)
 
     # check if all octopuses have flashed during the current step
@@ -50,3 +51,5 @@ for step in range(400):
     else:
         print("Part 2: all the octopuses flash for the first time during step", step+1)
         break
+
+    step += 1
