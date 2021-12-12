@@ -11,8 +11,6 @@ data = read("day11_data.txt")
 # make borders to data so won't have to deal with invalid indices
 data = [['x']*(len(data[0])+2)] + [['x'] + row + ['x'] for row in data] + [['x']*(len(data[0])+2)]
 
-# ------------------------- part 1 -----------------------------
-
 flashes_count = 0
 
 for step in range(400):
@@ -52,12 +50,3 @@ for step in range(400):
     else:
         print("Part 2: all the octopuses flash for the first time during step", step+1)
         break
-
-
-
-
-
-# for row in data:
-#     print(row)
-
-
