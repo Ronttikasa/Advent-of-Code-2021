@@ -4,9 +4,8 @@ def read(file):
     with open (file, "r") as f:
         data = []
         for row in f:
-            if not row.strip() == "":
-                data.append(row.strip())
-    return data
+            data.append(row.strip())
+    return [row for row in data if not row == ""]
 
 # data = read("day10_testdata.txt")
 data = read("day10_data.txt")
